@@ -1,38 +1,259 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap');
+
+:root {
+  --paper: #f6f3ee;
+  --ink: #222;
+  --muted: #6b7280;
+  --line: #e4ded3;
+  --accent: #f4b25f;
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.12);
+  --gap: 20px;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+}
+
+.shell {
+  max-width: 1100px;
+  margin: 24px auto 48px;
+  padding: 0 16px;
+  position: relative;
+}
+
+.topbar {
   text-align: center;
+  margin-bottom: 16px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.brand {
+  margin: 0;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 40px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: var(--gap);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.panel {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.panel + .panel {
+  margin-top: var(--gap);
+}
+
+.panel-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #e8e6e2;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #d7d1c7;
+  box-shadow: 0 0 0 3px rgba(244,178,95,0.15);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #e8e6e2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  resize: vertical;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.textarea.lined {
+  background-image: linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 100% 32px;
+  background-position-y: 22px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  background: #f2f0ec;
+  color: #333;
+  padding: 9px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .06s ease, background .2s ease;
+}
+
+.btn:hover {
+  background: #ebe8e3;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #2f2a22;
+}
+
+.btn.primary:hover {
+  background: #eea94a;
+}
+
+.entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.entry {
+  border: 1px solid #f0ede8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.entry-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.entry-time {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.entry-content {
+  margin: 0;
+  color: #39352f;
+  line-height: 1.6;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.goal-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.goals {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.goal {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px dashed #e8e4de;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.goal:hover {
+  background: #faf8f5;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.goal-bullet {
+  width: 18px;
+  text-align: center;
+  color: #8a847b;
+}
+
+.goal.done {
+  color: #256d3c;
+  border-style: solid;
+  border-color: #d7eadf;
+  background: #f4faf6;
+}
+
+.goal.done .goal-bullet {
+  color: #256d3c;
+}
+
+.sticky {
+  position: sticky;
+  top: 12px;
+}
+
+/* Hình Bubu Dudu ở góc dưới */
+.bubu-dudu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 10;
 }
