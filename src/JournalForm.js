@@ -8,7 +8,7 @@ function JournalForm() {
     e.preventDefault();
 
     try {
-      const res = await fetch('/api/posts', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/posts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, content })
