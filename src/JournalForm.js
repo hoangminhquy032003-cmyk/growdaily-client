@@ -26,6 +26,7 @@ function JournalForm() {
         setTitle('');
         setContent('');
       } else {
+        console.error('Phản hồi lỗi từ server:', data);
         alert('❌ Lỗi: ' + (data?.message || 'Không thể lưu bài viết'));
       }
     } catch (error) {
