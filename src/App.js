@@ -10,14 +10,56 @@ function App() {
   const [goals, setGoals] = useState([]);
   const [goalText, setGoalText] = useState('');
 
- const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+  // Thêm state cho đăng nhập
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginData, setLoginData] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
+  // Kiểm tra token khi load trang
   useEffect(() => {
-    fetch(`${API_URL}/journal`)
-      .then(res => res.json())
-      .then(data => setJournals(data))
-      .catch(err => console.error('Lỗi khi lấy dữ liệu:', err));
+    const token = localStorage.getItem('token');
+    if (token) setIsLoggedIn(true);
   }, []);
+
+  // Lấy dữ liệu nhật ký khi đã đăng nhập
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetch(`${API_URL}/journal`)
+        .then(res => res.json())
+        .then(data => setJournals(data))
+        .catch(err => console.error('Lỗi khi lấy dữ liệu:', err));
+    }
+  }, [isLoggedIn]);
+
+  // Xử lý đăng nhập
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginData)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        setIsLoggedIn(true);
+      } else {
+        setError(data.message || 'Đăng nhập thất bại');
+      }
+    } catch (err) {
+      setError('Không thể kết nối tới server');
+    }
+  };
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,9 +68,13 @@ function App() {
       return;
     }
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/journal`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ title, content })
       });
       if (!res.ok) {
@@ -59,11 +105,40 @@ function App() {
     });
   };
 
+  // Nếu chưa đăng nhập → hiển thị form đăng nhập
+  if (!isLoggedIn) {
+    return (
+      <div className="login-container">
+        <h2>🔐 Đăng nhập</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Tên đăng nhập"
+            value={loginData.username}
+            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Mật khẩu"
+            value={loginData.password}
+            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+            required
+          />
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <button type="submit">Đăng nhập</button>
+        </form>
+      </div>
+    );
+  }
+
+  // Nếu đã đăng nhập → hiển thị giao diện nhật ký
   return (
     <div className="shell">
       <header className="topbar">
         <h1 className="brand">Nhật ký GrowDaily</h1>
         <p className="subtitle">Ghi lại hành trình mỗi ngày</p>
+        <button onClick={handleLogout} className="btn btn-danger">Đăng xuất</button>
       </header>
 
       <main className="layout">

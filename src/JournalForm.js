@@ -1,4 +1,6 @@
+// src/JournalForm.js
 import React, { useState } from 'react';
+import { addPost } from './api';
 
 function JournalForm() {
   const [title, setTitle] = useState('');
@@ -6,32 +8,14 @@ function JournalForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/posts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content })
-      });
-
-      let data = null;
-      try {
-        data = await res.json();
-      } catch {
-        data = null; // Nếu server trả HTML hoặc không phải JSON
-      }
-
-      if (res.ok) {
-        alert('✅ Bài viết đã được lưu!');
-        setTitle('');
-        setContent('');
-      } else {
-        console.error('Phản hồi lỗi từ server:', data);
-        alert('❌ Lỗi: ' + (data?.message || 'Không thể lưu bài viết'));
-      }
-    } catch (error) {
-      console.error('Lỗi khi gửi bài viết:', error);
-      alert('❌ Không thể kết nối tới server. Vui lòng kiểm tra lại.');
+      await addPost(title, content);
+      alert('✅ Bài viết đã được lưu!');
+      setTitle('');
+      setContent('');
+    } catch (err) {
+      console.error('Lỗi khi gửi bài viết:', err);
+      alert('❌ ' + err.message);
     }
   };
 
