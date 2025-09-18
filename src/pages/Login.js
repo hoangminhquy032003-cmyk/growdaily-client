@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); // ✅ Đổi từ username → email
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -13,7 +13,7 @@ function Login() {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password }) // ✅ Gửi đúng định dạng
       });
 
       const data = await res.json();
@@ -35,9 +35,9 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Tên đăng nhập"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
