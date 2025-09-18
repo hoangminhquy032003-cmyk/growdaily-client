@@ -18,7 +18,7 @@ function App() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,7 +27,11 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetch(`${API_URL}/journal`)
+      fetch(`${API_URL}/journal`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
         .then(res => res.json())
         .then(data => setJournals(data))
         .catch(err => console.error('Lỗi khi lấy dữ liệu:', err));
@@ -50,7 +54,7 @@ function App() {
       } else {
         setError(data.message || 'Đăng nhập thất bại');
       }
-    } catch (err) {
+    } catch {
       setError('Không thể kết nối tới server');
     }
   };
@@ -73,7 +77,7 @@ function App() {
       } else {
         setError(data.message || 'Đăng ký thất bại');
       }
-    } catch (err) {
+    } catch {
       setError('Không thể kết nối tới server');
     }
   };
@@ -103,7 +107,9 @@ function App() {
         const msg = await res.text();
         throw new Error(msg || 'Lỗi không xác định');
       }
-      const updated = await fetch(`${API_URL}/journal`).then(r => r.json());
+      const updated = await fetch(`${API_URL}/journal`, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(r => r.json());
       setJournals(updated);
       setTitle('');
       setContent('');
@@ -133,7 +139,7 @@ function App() {
       <div className="login-wrapper">
         {showRegister ? (
           <form className="login-card" onSubmit={handleRegister}>
-            <h2>📝 Đăng ký tài khoản GrowDaily</h2>
+            <h2>📝 Đăng ký GrowDaily</h2>
             <input
               type="text"
               placeholder="Email"
@@ -234,11 +240,4 @@ function App() {
                 {journals.map((entry) => (
                   <li key={entry._id || entry.title} className="entry">
                     <div className="entry-head">
-                      <h3 className="entry-title">{entry.title}</h3>
-                      {entry.createdAt && (
-                        <time className="entry-time">
-                          {new Date(entry.createdAt).toLocaleString()}
-                        </time>
-                      )}
-                    </div>
-                    <p className="entry
+                      <h3 class
