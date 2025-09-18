@@ -10,7 +10,7 @@ function App() {
   const [content, setContent] = useState('');
   const [goals, setGoals] = useState([]);
   const [goalText, setGoalText] = useState('');
-  const [openPostId, setOpenPostId] = useState(null); // NEW: lưu bài đang mở
+  const [openPostId, setOpenPostId] = useState(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -194,17 +194,19 @@ function App() {
   return (
     <div className="shell">
       <header className="topbar">
-        <h1 className="brand">Nhật ký GrowDaily</h1>
-        <p className="subtitle">Ghi lại hành trình mỗi ngày</p>
+        <div>
+          <h1 className="brand">Nhật ký GrowDaily</h1>
+          <p className="subtitle">Ghi lại hành trình mỗi ngày</p>
+        </div>
         <button onClick={handleLogout} className="btn btn-danger">Đăng xuất</button>
       </header>
 
       <main className="layout">
         <section className="column left">
-          <div className="panel">
-            <h2 className="panel-title">Viết nhật ký</h2>
+          <div className="section-box">
+            <h2>Viết nhật ký</h2>
             <form onSubmit={handleSubmit} className="form">
-              <div className="field">
+              <div className="section-box">
                 <label>Tiêu đề</label>
                 <input
                   className="input"
@@ -214,24 +216,22 @@ function App() {
                 />
               </div>
 
-              <div className="field">
+              <div className="section-box">
                 <label>Nội dung</label>
                 <textarea
-                  className="textarea lined"
+                  className="textarea"
                   placeholder="Viết cảm nhận, tiến bộ, điều biết ơn..."
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                 />
               </div>
 
-              <div className="actions">
-                <button className="btn primary" type="submit">Lưu</button>
-              </div>
+              <button className="btn primary" type="submit">Lưu</button>
             </form>
           </div>
 
-          <div className="panel">
-            <h2 className="panel-title">Bài viết gần đây</h2>
+          <div className="section-box">
+            <h2>Bài viết gần đây</h2>
             {journals.length === 0 ? (
               <p className="muted">Chưa có bài viết nào.</p>
             ) : (
@@ -239,7 +239,7 @@ function App() {
                 {journals.map((entry) => (
                   <li key={entry._id} className="entry">
                     <div
-                      className="entry-head clickable"
+                      className="entry-head"
                       onClick={() =>
                         setOpenPostId(openPostId === entry._id ? null : entry._id)
                       }
@@ -247,62 +247,63 @@ function App() {
                       <h3 className="entry-title">{entry.title}</h3>
                       {entry.createdAt && (
                         <time className="entry-time">
-                          {new Date(entry.createdAt).toLocaleString()}
-                        </time>
-                      )}
-                    </div>
+                          {new Date(entry.createdAt).toLocale
+String()}
+  </time>
+)}
+</div>
 
-                    {/* Chỉ hiển thị nội dung nếu bài này đang được mở */}
-                    {openPostId === entry._id && (
-                      <p className="entry-content">{entry.content}</p>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
+{/* Chỉ hiển thị nội dung nếu bài này đang được mở */}
+{openPostId === entry._id && (
+  <p className="entry-content">{entry.content}</p>
+)}
+</li>
+))}
+</ul>
+)}
+</div>
+</section>
 
-        <aside className="column right">
-          <div className="panel sticky">
-            <h2 className="panel-title">Mục tiêu cá nhân</h2>
-            <div className="goal-input">
-              <input
-                className="input"
-                value={goalText}
-                onChange={(e) => setGoalText(e.target.value)}
-                placeholder="Nhập mục tiêu..."
-              />
-              <button className="btn" onClick={handleAddGoal}>Thêm</button>
-            </div>
-            <ul className="goals">
-              {goals.map((goal, index) => (
-                <li
-                  key={index}
-                  className={`goal ${goal.done ? 'done' : ''}`}
-                  onClick={() => toggleGoal(index)}
-                >
-                  <span className="goal-bullet">{goal.done ? '✓' : '○'}</span>
-                  <span className="goal-text">{goal.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="panel">
-            <h2 className="panel-title">Thống kê</h2>
-            <Stats journals={journals} goals={goals} />
-          </div>
-        </aside>
-      </main>
-
-      <img
-        src="/images/bubu-dudu.png"
-        alt="Bubu Dudu"
-        className="bubu-dudu"
+<aside className="column right">
+  <div className="section-box">
+    <h2>Mục tiêu cá nhân</h2>
+    <div className="goal-input">
+      <input
+        className="input"
+        value={goalText}
+        onChange={(e) => setGoalText(e.target.value)}
+        placeholder="Nhập mục tiêu..."
       />
+      <button className="btn" onClick={handleAddGoal}>Thêm</button>
     </div>
-  );
+    <ul className="goals">
+      {goals.map((goal, index) => (
+        <li
+          key={index}
+          className={`goal ${goal.done ? 'done' : ''}`}
+          onClick={() => toggleGoal(index)}
+        >
+          <span className="goal-bullet">{goal.done ? '✓' : '○'}</span>
+          <span className="goal-text">{goal.text}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div className="section-box">
+    <h2>Thống kê</h2>
+    <Stats journals={journals} goals={goals} />
+  </div>
+</aside>
+</main>
+
+<img
+  src="/images/bubu-dudu.png"
+  alt="Bubu Dudu"
+  className="bubu-dudu"
+/>
+</div>
+);
 }
 
 export default App;

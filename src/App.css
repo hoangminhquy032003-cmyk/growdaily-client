@@ -45,27 +45,30 @@ body {
   gap: 20px;
 }
 
-.panel {
-  background: var(--paper);
+/* ===== Khung tách riêng cho từng mục ===== */
+.section-box {
+  background: #fff;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 20px;
+  margin-bottom: 20px;
   border: 1px solid var(--line);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent,
-    transparent 28px,
-    var(--line) 29px
-  );
 }
 
-.panel-title {
+.section-box h2,
+.section-box label {
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
   font-family: 'Patrick Hand', cursive;
-  font-size: 22px;
+}
+
+.section-box > *:not(:last-child) {
   margin-bottom: 12px;
 }
 
-/* Form */
+/* ===== Form ===== */
 .field {
   margin-bottom: 14px;
 }
@@ -76,8 +79,11 @@ body {
   background: transparent;
   font-family: 'Nunito', sans-serif;
   font-size: 15px;
-  padding: 6px 8px;
+  padding: 8px 10px;
   outline: none;
+  border-radius: var(--radius);
+  background-color: #fffdf9;
+  border: 1px solid var(--line);
 }
 
 .textarea {
@@ -99,7 +105,7 @@ body {
   filter: brightness(0.95);
 }
 
-/* Bài viết gần đây */
+/* ===== Bài viết gần đây ===== */
 .entries {
   list-style: none;
   padding: 0;
@@ -133,7 +139,7 @@ body {
   line-height: 1.6;
 }
 
-/* Goals */
+/* ===== Goals ===== */
 .goal-input {
   display: flex;
   gap: 8px;
@@ -160,7 +166,7 @@ body {
   color: green;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
