@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Stats from './Stats';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './Login.css'; // Thêm file CSS cho login
 
 function App() {
   const [journals, setJournals] = useState([]);
@@ -10,20 +11,17 @@ function App() {
   const [goals, setGoals] = useState([]);
   const [goalText, setGoalText] = useState('');
 
-  // Thêm state cho đăng nhập
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
-  // Kiểm tra token khi load trang
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setIsLoggedIn(true);
   }, []);
 
-  // Lấy dữ liệu nhật ký khi đã đăng nhập
   useEffect(() => {
     if (isLoggedIn) {
       fetch(`${API_URL}/journal`)
@@ -33,7 +31,6 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  // Xử lý đăng nhập
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -55,7 +52,6 @@ function App() {
     }
   };
 
-  // Xử lý đăng xuất
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
@@ -71,7 +67,7 @@ function App() {
       const token = localStorage.getItem('token');
       const res = await fetch(`${API_URL}/journal`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
@@ -105,12 +101,12 @@ function App() {
     });
   };
 
-  // Nếu chưa đăng nhập → hiển thị form đăng nhập
+  // Giao diện đăng nhập đẹp hơn
   if (!isLoggedIn) {
     return (
-      <div className="login-container">
-        <h2>🔐 Đăng nhập</h2>
-        <form onSubmit={handleLogin}>
+      <div className="login-wrapper">
+        <form className="login-card" onSubmit={handleLogin}>
+          <h2>🔐 Đăng nhập GrowDaily</h2>
           <input
             type="text"
             placeholder="Tên đăng nhập"
@@ -125,14 +121,14 @@ function App() {
             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
             required
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          {error && <p className="error">{error}</p>}
           <button type="submit">Đăng nhập</button>
         </form>
       </div>
     );
   }
 
-  // Nếu đã đăng nhập → hiển thị giao diện nhật ký
+  // Giao diện chính sau khi đăng nhập
   return (
     <div className="shell">
       <header className="topbar">
@@ -231,7 +227,6 @@ function App() {
         </aside>
       </main>
 
-      {/* Hình Bubu Dudu */}
       <img 
         src="/images/bubu-dudu.png" 
         alt="Bubu Dudu" 
