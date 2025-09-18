@@ -12,8 +12,11 @@ function App() {
   const [goalText, setGoalText] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [registerData, setRegisterData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -46,6 +49,29 @@ function App() {
         setIsLoggedIn(true);
       } else {
         setError(data.message || 'Đăng nhập thất bại');
+      }
+    } catch (err) {
+      setError('Không thể kết nối tới server');
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registerData)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccess('✅ Đăng ký thành công! Bạn có thể đăng nhập.');
+        setRegisterData({ email: '', password: '' });
+        setShowRegister(false);
+      } else {
+        setError(data.message || 'Đăng ký thất bại');
       }
     } catch (err) {
       setError('Không thể kết nối tới server');
@@ -101,29 +127,60 @@ function App() {
     });
   };
 
-  // Giao diện đăng nhập
+  // Giao diện đăng nhập / đăng ký
   if (!isLoggedIn) {
     return (
       <div className="login-wrapper">
-        <form className="login-card" onSubmit={handleLogin}>
-          <h2>🔐 Đăng nhập GrowDaily</h2>
-          <input
-            type="text"
-            placeholder="Email"
-            value={loginData.email}
-            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Mật khẩu"
-            value={loginData.password}
-            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-            required
-          />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">Đăng nhập</button>
-        </form>
+        {showRegister ? (
+          <form className="login-card" onSubmit={handleRegister}>
+            <h2>📝 Đăng ký tài khoản GrowDaily</h2>
+            <input
+              type="text"
+              placeholder="Email"
+              value={registerData.email}
+              onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              value={registerData.password}
+              onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+              required
+            />
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
+            <button type="submit">Đăng ký</button>
+            <p style={{ textAlign: "center" }}>
+              Đã có tài khoản?{" "}
+              <button type="button" onClick={() => setShowRegister(false)}>Đăng nhập</button>
+            </p>
+          </form>
+        ) : (
+          <form className="login-card" onSubmit={handleLogin}>
+            <h2>🔐 Đăng nhập GrowDaily</h2>
+            <input
+              type="text"
+              placeholder="Email"
+              value={loginData.email}
+              onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Mật khẩu"
+              value={loginData.password}
+              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              required
+            />
+            {error && <p className="error">{error}</p>}
+            <button type="submit">Đăng nhập</button>
+            <p style={{ textAlign: "center" }}>
+              Chưa có tài khoản?{" "}
+              <button type="button" onClick={() => setShowRegister(true)}>Đăng ký ngay</button>
+            </p>
+          </form>
+        )}
       </div>
     );
   }
@@ -184,54 +241,4 @@ function App() {
                         </time>
                       )}
                     </div>
-                    <p className="entry-content">{entry.content}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
-
-        <aside className="column right">
-          <div className="panel sticky">
-            <h2 className="panel-title">Mục tiêu cá nhân</h2>
-            <div className="goal-input">
-              <input
-                className="input"
-                value={goalText}
-                onChange={(e) => setGoalText(e.target.value)}
-                placeholder="Nhập mục tiêu..."
-              />
-              <button className="btn" onClick={handleAddGoal}>Thêm</button>
-            </div>
-            <ul className="goals">
-              {goals.map((goal, index) => (
-                <li
-                  key={index}
-                  className={`goal ${goal.done ? 'done' : ''}`}
-                  onClick={() => toggleGoal(index)}
-                >
-                  <span className="goal-bullet">{goal.done ? '✓' : '○'}</span>
-                  <span className="goal-text">{goal.text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="panel">
-            <h2 className="panel-title">Thống kê</h2>
-            <Stats journals={journals} goals={goals} />
-          </div>
-        </aside>
-      </main>
-
-      <img 
-        src="/images/bubu-dudu.png" 
-        alt="Bubu Dudu" 
-        className="bubu-dudu"
-      />
-    </div>
-  );
-}
-
-export default App;
+                    <p className="entry
