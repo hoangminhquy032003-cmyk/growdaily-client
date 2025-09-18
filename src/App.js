@@ -247,11 +247,10 @@ function App() {
                       <h3 className="entry-title">{entry.title}</h3>
                       {entry.createdAt && (
                         <time className="entry-time">
-                          {new Date(entry.createdAt).toLocale
-String()}
-  </time>
-)}
-</div>
+                          {new Date(entry.createdAt).toLocaleString()}
+                        </time>
+                      )}
+                    </div>
 
 {/* Chỉ hiển thị nội dung nếu bài này đang được mở */}
 {openPostId === entry._id && (
