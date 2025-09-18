@@ -133,7 +133,6 @@ function App() {
     });
   };
 
-  // Giao diện đăng nhập / đăng ký
   if (!isLoggedIn) {
     return (
       <div className="login-wrapper">
@@ -191,7 +190,6 @@ function App() {
     );
   }
 
-  // Giao diện chính sau khi đăng nhập
   return (
     <div className="shell">
       <header className="topbar">
@@ -240,4 +238,14 @@ function App() {
                 {journals.map((entry) => (
                   <li key={entry._id || entry.title} className="entry">
                     <div className="entry-head">
-                      <h3 class
+                      <h3 className="entry-title">{entry.title}</h3>
+                      {entry.createdAt && (
+                        <time className="entry-time">
+                          {new Date(entry.createdAt).toLocaleString()}
+                        </time>
+                      )}
+                    </div>
+                    <p className="entry-content">{entry.content}</p>
+                  </li>
+                ))}
+             
