@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600&display=swap');
-
 :root {
   --paper: #f6f3ee;
   --ink: #222;
@@ -7,7 +5,7 @@
   --line: #e4ded3;
   --accent: #f4b25f;
   --radius: 12px;
-  --shadow: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
   --gap: 20px;
 }
 
@@ -22,22 +20,26 @@ body {
   max-width: 1100px;
   margin: 24px auto 48px;
   padding: 0 16px;
-  position: relative;
 }
 
 .topbar {
-  text-align: center;
-  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: var(--gap);
 }
 
 .brand {
-  margin: 0;
   font-family: 'Patrick Hand', cursive;
-  font-size: 40px;
+  font-size: 32px;
+  margin: 0;
 }
 
 .subtitle {
-  margin: 4px 0 0;
   color: var(--muted);
   font-size: 14px;
 }
@@ -48,68 +50,96 @@ body {
   gap: var(--gap);
 }
 
-/* ====== Bài viết gần đây ====== */
+.panel {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.panel-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Form */
+.field {
+  margin-bottom: 12px;
+}
+
+.input, .textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 10px;
+  font-size: 14px;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btn {
+  background: var(--accent);
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
+/* Bài viết gần đây */
 .entries {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .entry {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: #fff;
-  box-shadow: var(--shadow);
   overflow: hidden;
 }
 
 .entry-head {
   display: flex;
-  align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 14px;
-}
-
-.entry-head.clickable {
+  padding: 10px 14px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.entry-head.clickable:hover {
+.entry-head:hover {
   background: #f8f8f8;
 }
 
 .entry-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--accent);
   text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .entry-time {
-  color: var(--muted);
   font-size: 12px;
-  white-space: nowrap;
+  color: var(--muted);
 }
 
 .entry-content {
-  padding: 10px 14px 14px;
-  margin: 0;
+  padding: 10px 14px;
   border-top: 1px dashed var(--line);
-  color: var(--ink);
   background: #fffdf9;
 }
 
-/* Trạng thái rỗng */
-.muted {
-  color: var(--muted);
-}
-
-/* ====== Mục tiêu cá nhân ====== */
+/* Goals */
 .goal-input {
   display: flex;
   gap: 8px;
@@ -118,7 +148,7 @@ body {
 .goals {
   list-style: none;
   padding: 0;
-  margin: 12px 0 0;
+  margin-top: 12px;
   display: grid;
   gap: 8px;
 }
@@ -126,43 +156,22 @@ body {
 .goal {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+  gap: 8px;
+  padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fff;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
-}
-
-.goal:hover {
-  background: #f9fafb;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
-}
-
-.goal-bullet {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  border: 1px solid var(--line);
-  background: #fff;
-}
-
-.goal-text {
-  flex: 1;
 }
 
 .goal.done .goal-text {
-  color: #10b981;
   text-decoration: line-through;
+  color: green;
 }
 
-.goal.done .goal-bullet {
-  background: #d1fae5;
-  border-color: #a7f3d0;
+/* Responsive */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
