@@ -10,6 +10,7 @@ function App() {
   const [content, setContent] = useState('');
   const [goals, setGoals] = useState([]);
   const [goalText, setGoalText] = useState('');
+  const [openPostId, setOpenPostId] = useState(null); // NEW: lưu bài đang mở
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -236,8 +237,13 @@ function App() {
             ) : (
               <ul className="entries">
                 {journals.map((entry) => (
-                  <li key={entry._id || entry.title} className="entry">
-                    <div className="entry-head">
+                  <li key={entry._id} className="entry">
+                    <div
+                      className="entry-head clickable"
+                      onClick={() =>
+                        setOpenPostId(openPostId === entry._id ? null : entry._id)
+                      }
+                    >
                       <h3 className="entry-title">{entry.title}</h3>
                       {entry.createdAt && (
                         <time className="entry-time">
@@ -245,8 +251,12 @@ function App() {
                         </time>
                       )}
                     </div>
-                    <p className="entry-content">{entry.content}</p>
-  </li>
+
+                    {/* Chỉ hiển thị nội dung nếu bài này đang được mở */}
+                    {openPostId === entry._id && (
+                      <p className="entry-content">{entry.content}</p>
+                    )}
+                  </li>
                 ))}
               </ul>
             )}
