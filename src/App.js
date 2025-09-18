@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Stats from './Stats';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import './Login.css'; // Thêm file CSS cho login
+import './Login.css';
 
 function App() {
   const [journals, setJournals] = useState([]);
@@ -12,16 +12,11 @@ function App() {
   const [goalText, setGoalText] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loginData, setLoginData] = useState({ username: '', password: '' });
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
 
   const API_URL = process.env.REACT_APP_API_URL;
 
-fetch(`${API_URL}/api/auth/login`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password })
-});
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setIsLoggedIn(true);
@@ -106,7 +101,7 @@ fetch(`${API_URL}/api/auth/login`, {
     });
   };
 
-  // Giao diện đăng nhập đẹp hơn
+  // Giao diện đăng nhập
   if (!isLoggedIn) {
     return (
       <div className="login-wrapper">
@@ -114,9 +109,9 @@ fetch(`${API_URL}/api/auth/login`, {
           <h2>🔐 Đăng nhập GrowDaily</h2>
           <input
             type="text"
-            placeholder="Tên đăng nhập"
-            value={loginData.username}
-            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+            placeholder="Email"
+            value={loginData.email}
+            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
             required
           />
           <input
@@ -143,7 +138,6 @@ fetch(`${API_URL}/api/auth/login`, {
       </header>
 
       <main className="layout">
-        {/* Cột trái */}
         <section className="column left">
           <div className="panel">
             <h2 className="panel-title">Viết nhật ký</h2>
@@ -198,7 +192,6 @@ fetch(`${API_URL}/api/auth/login`, {
           </div>
         </section>
 
-        {/* Cột phải */}
         <aside className="column right">
           <div className="panel sticky">
             <h2 className="panel-title">Mục tiêu cá nhân</h2>
