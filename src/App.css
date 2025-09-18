@@ -1,177 +1,66 @@
-:root {
-  --paper: #f6f3ee;
-  --ink: #222;
-  --muted: #6b7280;
-  --line: #e4ded3;
-  --accent: #f4b25f;
-  --radius: 12px;
-  --shadow: 0 4px 12px rgba(0,0,0,0.08);
-  --gap: 20px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Patrick+Hand&display=swap');
 
 body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: 'Inter', sans-serif;
-}
-
-.shell {
-  max-width: 1100px;
-  margin: 24px auto 48px;
-  padding: 0 16px;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  background: #fff;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  margin-bottom: var(--gap);
-}
-
-.brand {
-  font-family: 'Patrick Hand', cursive;
-  font-size: 32px;
-  margin: 0;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: var(--gap);
+  font-family: 'Nunito', sans-serif;
+  background: #fafafa;
+  color: #333;
 }
 
 .panel {
   background: #fff;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 16px;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  padding: 20px;
 }
 
 .panel-title {
-  margin: 0 0 12px;
-  font-size: 18px;
   font-weight: 600;
-}
-
-/* Form */
-.field {
-  margin-bottom: 12px;
+  font-size: 18px;
+  margin-bottom: 14px;
 }
 
 .input, .textarea {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 10px;
-  font-size: 14px;
-}
-
-.textarea {
-  min-height: 100px;
-  resize: vertical;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .btn {
-  background: var(--accent);
-  border: none;
-  padding: 8px 14px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  color: #fff;
+  border-radius: 14px;
+  padding: 10px 18px;
   font-weight: 600;
+  background: #3B82F6;
+  color: #fff;
+  border: none;
 }
 
 .btn:hover {
-  filter: brightness(0.95);
-}
-
-/* Bài viết gần đây */
-.entries {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
+  background: #2563EB;
 }
 
 .entry {
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 14px;
   overflow: hidden;
+  border: 1px solid #e5e7eb;
 }
 
 .entry-head {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 14px;
+  padding: 12px 16px;
   cursor: pointer;
 }
 
 .entry-head:hover {
-  background: #f8f8f8;
+  background: #f3f4f6;
 }
 
 .entry-title {
-  margin: 0;
-  font-size: 15px;
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.entry-time {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .entry-content {
-  padding: 10px 14px;
-  border-top: 1px dashed var(--line);
-  background: #fffdf9;
-}
-
-/* Goals */
-.goal-input {
-  display: flex;
-  gap: 8px;
-}
-
-.goals {
-  list-style: none;
-  padding: 0;
-  margin-top: 12px;
-  display: grid;
-  gap: 8px;
-}
-
-.goal {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #fff;
-  cursor: pointer;
-}
-
-.goal.done .goal-text {
-  text-decoration: line-through;
-  color: green;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
+  padding: 12px 16px;
+  line-height: 1.6;
 }
