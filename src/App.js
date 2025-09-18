@@ -36,7 +36,7 @@ function App() {
         .then(data => setJournals(data))
         .catch(err => console.error('Lỗi khi lấy dữ liệu:', err));
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, API_URL]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -245,56 +245,54 @@ function App() {
                         </time>
                       )}
                     </div>
-                    <p className="entry-content">{entry}</p>
-
                     <p className="entry-content">{entry.content}</p>
+  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+
+        <aside className="column right">
+          <div className="panel sticky">
+            <h2 className="panel-title">Mục tiêu cá nhân</h2>
+            <div className="goal-input">
+              <input
+                className="input"
+                value={goalText}
+                onChange={(e) => setGoalText(e.target.value)}
+                placeholder="Nhập mục tiêu..."
+              />
+              <button className="btn" onClick={handleAddGoal}>Thêm</button>
+            </div>
+            <ul className="goals">
+              {goals.map((goal, index) => (
+                <li
+                  key={index}
+                  className={`goal ${goal.done ? 'done' : ''}`}
+                  onClick={() => toggleGoal(index)}
+                >
+                  <span className="goal-bullet">{goal.done ? '✓' : '○'}</span>
+                  <span className="goal-text">{goal.text}</span>
                 </li>
               ))}
             </ul>
-          )}
-        </div>
-      </section>
-
-      <aside className="column right">
-        <div className="panel sticky">
-          <h2 className="panel-title">Mục tiêu cá nhân</h2>
-          <div className="goal-input">
-            <input
-              className="input"
-              value={goalText}
-              onChange={(e) => setGoalText(e.target.value)}
-              placeholder="Nhập mục tiêu..."
-            />
-            <button className="btn" onClick={handleAddGoal}>Thêm</button>
           </div>
-          <ul className="goals">
-            {goals.map((goal, index) => (
-              <li
-                key={index}
-                className={`goal ${goal.done ? 'done' : ''}`}
-                onClick={() => toggleGoal(index)}
-              >
-                <span className="goal-bullet">{goal.done ? '✓' : '○'}</span>
-                <span className="goal-text">{goal.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
 
-        <div className="panel">
-          <h2 className="panel-title">Thống kê</h2>
-          <Stats journals={journals} goals={goals} />
-        </div>
-      </aside>
-    </main>
+          <div className="panel">
+            <h2 className="panel-title">Thống kê</h2>
+            <Stats journals={journals} goals={goals} />
+          </div>
+        </aside>
+      </main>
 
-    <img
-      src="/images/bubu-dudu.png"
-      alt="Bubu Dudu"
-      className="bubu-dudu"
-    />
-  </div>
+      <img
+        src="/images/bubu-dudu.png"
+        alt="Bubu Dudu"
+        className="bubu-dudu"
+      />
+    </div>
   );
 }
 
-export default App;  
+export default App;
