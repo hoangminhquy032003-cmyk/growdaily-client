@@ -15,8 +15,13 @@ function App() {
   const [loginData, setLoginData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+  const API_URL = process.env.REACT_APP_API_URL;
 
+fetch(`${API_URL}/api/auth/login`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, password })
+});
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setIsLoggedIn(true);
